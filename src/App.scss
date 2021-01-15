@@ -1,0 +1,16 @@
+@import "~antd/dist/antd.css";
+
+#root, .layout {
+  min-height: 100vh;
+}
+
+.layout {
+  padding: 50px;
+}
+
+.site-layout-content {
+  min-height: 100%;
+  min-height: 280px;
+  padding: 24px;
+  background: #fff;
+}
