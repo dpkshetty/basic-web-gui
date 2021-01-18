@@ -1,7 +1,7 @@
 import "./App.scss";
 import { useEffect, useState } from "react";
 import { Alert, Button, Layout, message, Select, Space, Spin } from "antd";
-import { baseUrl, endpoints } from "./environment";
+import { baseUrl, endpoints, methodes } from "./environment";
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -9,15 +9,14 @@ const { Option } = Select;
 function App() {
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState(null);
+  const [method, setMethod] = useState(methodes.get);
   const [content, setContent] = useState();
-
-  const handleChange = (value) => {
-    setValue(value);
-  };
 
   const onSubmit = async () => {
     setLoading(true);
-    fetch(baseUrl + value)
+    fetch(baseUrl + value, {
+      method: method,
+    })
       .then((reponse) => reponse.text())
       .then((text) => {
         setLoading(false);
@@ -40,10 +39,9 @@ function App() {
           <div className="site-layout-content">
             <Space>
               <Select
-                defaultValue="lucy"
-                onChange={handleChange}
+                onChange={setValue}
                 value={value}
-                placeholder="Select option"
+                placeholder="Select endpoint"
                 allowClear={false}
                 style={{ width: 200 }}
               >
@@ -53,8 +51,21 @@ function App() {
                   </Option>
                 ))}
               </Select>
+              <Select
+                onChange={setMethod}
+                value={method}
+                placeholder="Select method"
+                allowClear={false}
+                style={{ width: 200 }}
+              >
+                {Object.keys(methodes).map((key) => (
+                  <Option value={methodes[key]} key={key}>
+                    {methodes[key]}
+                  </Option>
+                ))}
+              </Select>
               <Button
-                type="primary"
+                method="primary"
                 onClick={onSubmit}
                 disabled={value == null}
               >
@@ -68,7 +79,7 @@ function App() {
                 message={
                   <span dangerouslySetInnerHTML={{ __html: content }}></span>
                 }
-                type="info"
+                method="info"
               />
             )}
           </div>

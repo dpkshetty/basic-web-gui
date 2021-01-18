@@ -5,3 +5,10 @@ export const endpoints = {
   version: "/version",
   test: "/test",
 };
+
+export const methodes = {
+  get: "GET",
+  post: "POST",
+  update: "UPDATE",
+  delete: "DELETE",
+};
